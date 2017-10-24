@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
    <router-link to="reader">Leitor</router-link>
+   <router-link to="list">Listar</router-link>
+   <router-link to="create">Criar</router-link>
   </div>
 </template>
 

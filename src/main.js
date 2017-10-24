@@ -18,9 +18,20 @@ new Vue({
   router,
   template: '<App/>',
   firebase: {
-   codes: {
-     source: db.ref('codes')
-   }
+    // simple syntax, bind as an array by default
+    anArray: db.ref('codes'),
+    // can also bind to a query
+    // anArray: db.ref('url/to/my/collection').limitToLast(25)
+    // full syntax
+    anObject: {
+      source: db.ref('codes'),
+      // optionally bind as an object
+      asObject: true,
+      // optionally provide the cancelCallback
+      cancelCallback: function () {},
+      // this is called once the data has been retrieved from firebase
+      readyCallback: function () {}
+    }
   },
   components: { App }
 })
