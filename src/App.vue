@@ -18,4 +18,7 @@ body {
   padding: 0;
 }
 
+ button > * {
+    pointer-events: none;
+ }
 </style>
