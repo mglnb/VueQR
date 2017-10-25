@@ -25,9 +25,8 @@
 </template>
 
 <script>
-import "webrtc-adapter" // shim getUserMedia
-import { QrcodeReader } from "vue-qrcode-reader"
-import db from "@/firebase"
+import "webrtc-adapter"; // shim getUserMedia
+import { QrcodeReader } from "vue-qrcode-reader";
 export default {
   components: { QrcodeReader },
   data() {
@@ -37,81 +36,79 @@ export default {
       errors: [],
       paused: false,
       pauseOnCapture: false
-    }
+    };
   },
   methods: {
     onDecode(content) {
-      this.content = content
-      console.log(content)
-      console.log(JSON.parse(content))
-      db.ref("readedCodes").push(JSON.parse(content))
+      this.content = content;
+      this.$db.ref("readedCodes").push(JSON.parse(content));
       if (this.pauseOnCapture) {
-        this.paused = true
+        this.paused = true;
       }
     },
     onLocate(points) {
-      this.points = points
+      this.points = points;
     },
     onError(message) {
-      this.errors.push(message)
+      this.errors.push(message);
     },
     onStreamLoaded() {
-      this.content = ""
+      this.content = "";
     },
     positionOf({ x, y }) {
       return {
         top: y + "px",
         left: x + "px"
-      }
+      };
     },
     togglePauseOnCapture() {
-      this.pauseOnCapture = !this.pauseOnCapture
+      this.pauseOnCapture = !this.pauseOnCapture;
       if (!this.pauseOnCapture) {
-        this.paused = false
+        this.paused = false;
       }
     }
   }
-}
+};
 </script>
 
-<style lang="sass">
+<style lang="scss">
 
-.qrcode-reader-demo
-    text-align: center
-    padding: 0px
-    .point
-        position: absolute
-        background-color: red
-        border-radius: 50%
-        width: 10px
-        height: 10px
-        margin-left: -5px
-        margin-top: -5px
-        transition: all 40ms
+.qrcode-reader-demo {
+    text-align: center;
+    padding: 0px;
+    .point{
+        position: absolute;
+        background-color: red;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        margin-left: -5px;
+        margin-top: -5px;
+        transition: all 40ms;
+        }
 
+    .content {
 
-    .content
+        bottom: 0;
+        padding: 0px 20px;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 
-        bottom: 0
-        padding: 0px 20px
-        color: #fff
-        font-weight: bold
-        padding: 10px
-        background-color: rgba(0, 0, 0, 0.5)
+    .controls {
+        margin-top: 40px;
+    }
 
+    .error {
+        color: red;
+        font-weight: bold;
+        padding: 10px;
+    }
 
-    .controls
-        margin-top: 40px
-
-
-    .error
-        color: red
-        font-weight: bold
-        padding: 10px
-
-
-    video
-        opacity: 0.7
-
-
+    video {
+        opacity: 0.7;
+    }
+}
 </style>

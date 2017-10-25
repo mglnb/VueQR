@@ -9,13 +9,35 @@
                 <th>Visitante</th>
                 <th>CPF</th>
                 <th>Palestra</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in codes[0]" :key="item.key">
+              <tr v-for="item in codes[0]" :key="">
+                <!--              
+                #TODO preciso pegar os id's de cada registro
+                <td>{{Object.keys(codes[0])[]}}</td>
+                 -->
                 <td>{{item.nome}}</td>
                 <td>{{item.cpf}}</td>
                 <td>{{item.palestra}}</td>
+                <td style="text-align:center;">
+                  <div class="buttons">
+                   <span class="button is-info is-outlined">
+                    <span class="icon is-small">
+                      <i class="fa fa-qrcode"></i>
+                    </span>
+                    <span>Ver QRCode</span>
+                  </span>
+                  <span class="button is-danger is-outlined">
+                    <span class="icon is-small">
+                      <i class="fa fa-times"></i>
+                    </span>
+                    <span>Delete</span>
+                   </span>
+                  </div>
+                </td>
+                
               </tr>
             </tbody>
         </table>
@@ -29,27 +51,35 @@
 </template>
 
 <script>
-import db from "@/firebase"
 import SideNav from '@/components/SharedComponents/SideNav'
 export default {
   data() {
     return {
-      codes: []
+      codes: [],
+      counter :  0,
+      isLoading: {
+        saveBtn: false,
+        deleteBtn: false
+      }
     }
   },
   components: {
     SideNav
   },
   created() {
-    db
-      .ref("readedCodes")
+    this.$db
+      .ref("generatedCodes")
       .once("value")
       .then(snapshot => {
-        console.log(snapshot)
         this.codes.push(snapshot.val())
       })
-    console.log(this.codes)
+  },
+  methods: {
+    load(save) {
+console.log(save)
+    }
   }
+
 }
 </script>
 
