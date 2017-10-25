@@ -44,7 +44,7 @@ export default {
       this.content = content
       console.log(content)
       console.log(JSON.parse(content))
-      db.ref("codes").push(JSON.parse(content))
+      db.ref("readedCodes").push(JSON.parse(content))
       if (this.pauseOnCapture) {
         this.paused = true
       }
@@ -76,10 +76,10 @@ export default {
 
 <style lang="sass">
 
-.qrcode-reader-demo 
+.qrcode-reader-demo
     text-align: center
     padding: 0px
-    .point 
+    .point
         position: absolute
         background-color: red
         border-radius: 50%
@@ -88,30 +88,30 @@ export default {
         margin-left: -5px
         margin-top: -5px
         transition: all 40ms
-    
 
-    .content 
-        
+
+    .content
+
         bottom: 0
         padding: 0px 20px
         color: #fff
         font-weight: bold
         padding: 10px
         background-color: rgba(0, 0, 0, 0.5)
-    
 
-    .controls 
+
+    .controls
         margin-top: 40px
-    
 
-    .error 
+
+    .error
         color: red
         font-weight: bold
         padding: 10px
-    
 
-    video 
+
+    video
         opacity: 0.7
-    
+
 
 </style>

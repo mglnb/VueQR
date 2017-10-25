@@ -4,7 +4,7 @@
       <side-nav class="column is-one-quarter"></side-nav>
       <div class="column is-two-thirds">
           <div class="field">
-            <label class="label is-medium">Medium input</label>
+            <label class="label is-medium">Dados do visitante</label>
             <div class="control has-icons-left has-icons-right">
               <input class="input is-medium" type="text" v-model="nome" placeholder="Nome">
               <span class="icon is-small is-left">
@@ -43,9 +43,9 @@
           <div class="button-group">
             <p>{{qrCodeComputed}}</p>
             <a @click="downloadQRCode(`${nome}`)" id="btn-download" class="button is-primary is-medium">Download</a>
-            <button class="button is-primary is-medium">Enviar por Email</button>
-            <button class="button is-primary is-medium">Salvar no banco</button>
-            <button class="button is-medium is-light">Limpar</button>
+            <button @click.prevent="sendToEmail()" class="button is-primary is-medium">Enviar por Email</button>
+            <button @click.prevent="save()" class="button is-primary is-medium">Salvar no banco</button>
+            <button @click.prevent="clearForm()" class="button is-medium is-light">Limpar</button>
           </div>
           </div>
       </div>
@@ -56,6 +56,8 @@
 import VueQrCode from "@xkeshi/vue-qrcode"
 import SideNav from "@/components/SharedComponents/SideNav"
 import { mask } from "vue-the-mask"
+import db from "@/firebase"
+
 export default {
   data() {
     return { nome: "", palestra: "", cpf: "" }
@@ -80,15 +82,35 @@ export default {
       let link = document.getElementById('btn-download')
       link.href = document.querySelector('canvas').toDataURL()
       link.download = filename
+    },
+    clearForm() {
+      this.nome = ""
+      this.palestra = ""
+      this.cpf = ""
+    },
+    save() {
+      let data = {
+        nome : this.nome,
+        cpf : this.cpf,
+        palestra: this.palestra
+      }
+      console.log(data)
+      db.ref("generatedCodes").push(data)
+    },
+    sendToEmail() {
+
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 .button-group {
   text-align: center;
   margin-top: 20px;
+  p {
+    margin-bottom: 20px;
+  }
 }
  canvas {
    display: block;
