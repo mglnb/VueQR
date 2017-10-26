@@ -20,12 +20,12 @@
               <td>{{item.palestra}}</td>
               <td style="text-align:center;">
                 <div class="buttons">
-                  <button @click="load" class="button is-info is-outlined">
+                  <router-link tag="button" :to="`/writer/${item.nome}/${item.cpf}/${item.palestra}`"  class="button is-info is-outlined">
                     <span class="icon is-small">
                       <i class="fa fa-qrcode"></i>
                     </span>
                     <span>Ver QRCode</span>
-                  </button>
+                  </router-link>
                   <button @click="remove(index)" class="button is-danger is-outlined">
                     <span class="icon is-small">
                       <i class="fa fa-times"></i>
@@ -114,7 +114,7 @@ table tbody {
     visibility: visible;
   }
   100% {
-    transform: rotateX(-140deg);
+    transform: rotateX(-100deg);
     transform-origin: 0% 0%;
     perspective: 2000;
     perspective-origin: 50% 50%;
@@ -123,6 +123,7 @@ table tbody {
     visibility: none;
     margin-bottom: -10px;
     padding: 0;
+    line-height: 0
   }
 }
 

@@ -11,6 +11,7 @@ const routes = [
     { path: '/reader', name: 'QrReader', component: QrReader },
     { path: '/list', name: 'QrList', component: QrList },
     { path: '/writer', name: 'QrWriter', component: QrWriter },
+    { path: '/writer/:user/:cpf/:palestra', name: 'QrWriter', component: QrWriter },
     { path: '/sidenav', name: 'SideNav', component: SideNav }
 ]
 

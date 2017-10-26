@@ -60,7 +60,11 @@ import db from "@/firebase"
 
 export default {
   data() {
-    return { nome: "", palestra: "", cpf: "" }
+    return { 
+      nome:this.$route.params.user || "" , 
+      palestra: this.$route.params.palestra || "", 
+      cpf: this.$route.params.cpf || ""
+      }
   },
   components: {
     "qr-code-writer": VueQrCode,
