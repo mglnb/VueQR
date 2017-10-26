@@ -24,4 +24,7 @@ export default {
 .menu {
     min-height: 100vh;
 }
+.menu-list a.is-active {
+    background: #42b983
+}
 </style>
