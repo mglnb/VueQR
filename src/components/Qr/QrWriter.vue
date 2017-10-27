@@ -1,7 +1,7 @@
 <template>
 <div class="qr-writer">
-    <nav-bar></nav-bar>
-  
+  <nav-bar></nav-bar>
+
   <div class="columns">
     <side-nav class="column is-one-quarter"></side-nav>
     <div class="column is-two-thirds">
@@ -66,9 +66,10 @@ import db from "@/firebase"
 export default {
   data() {
     return {
-      nome: this.$route.params.user || "",
-      palestra: this.$route.params.palestra || "",
-      cpf: this.$route.params.cpf || ""
+      nome: "",
+      palestra: "",
+      cpf: "",
+      dataCodes: {}
     }
   },
   components: {
@@ -78,6 +79,21 @@ export default {
   },
   directives: {
     mask
+  },
+  created() {
+    if (this.$route.params.id) {
+      this.$db
+        .ref("generatedCodes")
+        // .once("value")
+        .orderByKey()
+        .equalTo(this.$route.params.id)
+        .on('value', snapshot => {
+          this.dataCodes = snapshot.val()[this.$route.params.id];
+          this.nome = this.dataCodes.nome
+          this.palestra = this.dataCodes.palestra
+          this.cpf = this.dataCodes.cpf
+        })
+    }
   },
   computed: {
     qrCodeComputed() {
