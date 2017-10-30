@@ -29,7 +29,7 @@ firebase.auth.onAuthStateChanged((user) => {
       providerData: user.providerData || false,
     })
   } else {
-    localStorage['user'] = null
+    localStorage.removeItem('user')
   }
 })
  

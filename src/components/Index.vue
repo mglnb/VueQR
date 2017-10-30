@@ -1,14 +1,16 @@
 <template>
   <div class="hello">
-   <router-link to="reader">Leitor</router-link>
-   <router-link to="list">Listar</router-link>
-   <router-link to="writer">Criar</router-link>
+  <side-nav></side-nav>
   </div>
 </template>
 
 <script>
+import SideNav from '@/components/SharedComponents/SideNav'
 export default {
-  name: 'Index'
+  name: 'Index',
+  components: {
+    SideNav
+  }
 }
 </script>
 
