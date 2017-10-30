@@ -32,12 +32,12 @@
 
             <div class="field">
                 <div  class="control is-medium has-icons-left has-icons-right">
-                    <input ref="date" class="input is-medium is-fullwidth" type="datetime" placeholder="Dia" />
+                    <input ref="dia" class="input is-medium is-fullwidth" type="datetime" placeholder="Dia" v-model="dia" />
                     <span class="icon is-medium is-left">
                         <i class="fa fa-calendar"></i>
                     </span>
                     <span class="icon is-medium is-right">
-                        <i class="fa fa-check" :class="date ? 'has-text-success' : ''"></i>
+                        <i class="fa fa-check" :class="dia ? 'has-text-success' : ''"></i>
                     </span>
                 </div>
             </div>
@@ -64,7 +64,7 @@ export default {
         return {
             palestra: "",
             palestrante: "",
-            date: [],
+            dia: '',
             dataCodes: {}
         }
     },
@@ -77,6 +77,7 @@ export default {
         mask,
     },
     created() {
+        console.log(this.$refs)
         // if (this.$route.params.id) {
         //     this.$db
         //         .ref("generatedCodes")
@@ -85,29 +86,29 @@ export default {
         //         .equalTo(this.$route.params.id)
         //         .on('value', snapshot => {
         //             this.dataCodes = snapshot.val()[this.$route.params.id];
-        //             this.nome = this.dataCodes.nome
+        //             this.palestrante = this.dataCodes.palestrante
         //             this.palestra = this.dataCodes.palestra
-        //             this.cpf = this.dataCodes.cpf
+        //             this.dia = this.dataCodes.dia
         //         })
         // }
     },
     mounted() {
-        this.$refs.date.flatpickr({enableTime: true})
+        this.$refs.dia.flatpickr({enableTime: true})
     },
     methods: {
         clearForm() {
             this.palestra = ""
             this.palestrante = ""
-            this.date = ""
+            this.dia = ""
         },
         save() {
             let data = {
-                date: this.date,
+                dia: this.dia,
                 palestrante: this.palestrante,
                 palestra: this.palestra
             }
             console.log(data)
-            db.ref("palestra").push(data)
+            this.$db.ref("palestra").push(data)
         },
         loadFlatpickr() {
         }

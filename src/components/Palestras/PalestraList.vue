@@ -7,21 +7,21 @@
       <table class="table is-fullwidth is-stripe is-hoverable">
         <thead>
           <tr>
-            <th>Visitante</th>
-            <th>CPF</th>
+            <th>Palestrante</th>
             <th>Palestra</th>
+            <th>Dia</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr :id="index" v-show="!item.active" v-for="(item, index) in codes" :key="index">
 
-            <td>{{item.nome}}</td>
-            <td>{{item.cpf}}</td>
+            <td>{{item.palestrante}}</td>
             <td>{{item.palestra}}</td>
+            <td>{{item.dia}}</td>
             <td style="text-align:center;">
               <div class="buttons">
-                <router-link tag="button" :to="`/writer/${index}`" class="button is-info is-outlined">
+                <router-link tag="button" :to="`create/${index}`" class="button is-info is-outlined">
                   <span class="icon is-small">
                       <i class="fa fa-qrcode"></i>
                     </span>
@@ -66,7 +66,7 @@ export default {
   },
   created() {
     this.$db
-      .ref("generatedCodes")
+      .ref("palestra")
       .once("value")
       .then(snapshot => {
         this.codes = snapshot.val();

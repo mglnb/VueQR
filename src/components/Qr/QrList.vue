@@ -21,7 +21,7 @@
             <td>{{item.palestra}}</td>
             <td style="text-align:center;">
               <div class="buttons">
-                <router-link tag="button" :to="`/writer/${index}`" class="button is-info is-outlined">
+                <router-link tag="button" :to="`/qrcode/writer/${index}`" class="button is-info is-outlined">
                   <span class="icon is-small">
                       <i class="fa fa-qrcode"></i>
                     </span>

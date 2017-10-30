@@ -21,7 +21,8 @@ const routes = [
     { path: '/qrcode/writer/:id', name: 'QrWriter', component: QrWriter, meta: {requireAuth: true} },
     // PalestraCrud
     {path: '/palestra/create' , name : 'PalestraCreate', component: PalestraCreate},
-    {path: '/palestra/list' , name : 'PalestraCreate', component: PalestraList}
+    {path: '/palestra/create/:id' , name : 'PalestraCreate', component: PalestraCreate},
+    {path: '/palestra/list' , name : 'PalestraList', component: PalestraList}
 ]
 
 export default routes;

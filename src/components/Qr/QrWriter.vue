@@ -121,7 +121,7 @@ export default {
         palestra: this.palestra
       }
       console.log(data)
-      db.ref("generatedCodes").push(data)
+      this.$db.ref("generatedCodes").push(data)
     },
     sendToEmail() {
 
