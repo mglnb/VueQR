@@ -11,12 +11,42 @@ Vue.config.productionTip = false
 /**
  * A Firebase db
  */
-import db from './firebase'
+import firebase from './firebase'
 Vue.use(VueFire) 
-Vue.prototype.$db = db;
+Vue.prototype.$db = firebase.db
+Vue.prototype.$auth = firebase.auth
 
+
+firebase.auth.onAuthStateChanged((user) => {
+  if(user) {
+    localStorage['user'] = JSON.stringify({
+      displayName: user.displayName || user.email,
+      email: user.email,
+      emailVerified : user.emailVerified || false,
+      photoURL: user.photoURL || false,
+      isAnonymous: user.isAnonymous,
+      uid: user.uid,
+      providerData: user.providerData || false,
+    })
+  } else {
+    localStorage['user'] = null
+  }
+})
  
-
+router.beforeEach((to,from, next) => {
+  let user = firebase.auth.currentUser
+  if(to.matched.some(record=> record.meta.requireAuth)) {
+    if (!user) {
+      console.log('não tá logado')
+      next('/login')
+    } else {
+      console.log('logado')
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

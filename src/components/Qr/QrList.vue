@@ -1,5 +1,6 @@
 <template>
 <div class="qr-list">
+  <nav-bar></nav-bar>
   <div class="columns">
     <side-nav class="column is-one-quarter"></side-nav>
     <div class="column is-two-thirds">
@@ -44,6 +45,7 @@
 
 <script>
 import SideNav from "@/components/SharedComponents/SideNav";
+import NavBar from "@/components/SharedComponents/Nav";
 
 function delay(t) {
   return new Promise(function(resolve) {
@@ -59,7 +61,8 @@ export default {
     };
   },
   components: {
-    SideNav
+    SideNav,
+    NavBar
   },
   created() {
     this.$db
@@ -78,7 +81,7 @@ export default {
         .remove()
         .then(() => {
           document.getElementById(key).classList.add("delected");
-          delay(800).then(() => {
+          delay(500).then(() => {
             document.getElementById(key).remove();
           });
         });
@@ -89,11 +92,11 @@ export default {
 
 <style>
 table tbody {
-  transition: 1s;
+  transition: .7s;
 }
 
 .delected {
-  animation: 1s delete forwards;
+  animation: .8s delete forwards;
 }
 
 @keyframes delete {
