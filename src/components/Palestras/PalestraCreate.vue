@@ -1,7 +1,14 @@
 <template>
 <div class="palestra-create">
     <nav-bar></nav-bar>
-
+    <div v-if="success" class="notification is-success">
+        <button class="delete"></button>
+        <p>Registro salvo com sucesso</p>
+    </div>
+    <div v-if="error" class="notification is-danger">
+        <button class="delete"></button>
+        <p>Falha ao tentar salvar o registro</p>
+    </div>
     <div class="columns">
         <side-nav class="column is-one-quarter"></side-nav>
         <div class="column is-two-thirds">
@@ -31,7 +38,7 @@
             </div>
 
             <div class="field">
-                <div  class="control is-medium has-icons-left has-icons-right">
+                <div class="control is-medium has-icons-left has-icons-right">
                     <input ref="dia" class="input is-medium is-fullwidth" type="datetime" placeholder="Dia" v-model="dia" />
                     <span class="icon is-medium is-left">
                         <i class="fa fa-calendar"></i>
@@ -48,6 +55,8 @@
         </div>
     </div>
 </div>
+
+
 </template>
 
 <script>
@@ -55,13 +64,15 @@ import SideNav from "@/components/SharedComponents/SideNav"
 import NavBar from "@/components/SharedComponents/Nav";
 import db from "@/firebase"
 import {
-  mask
+    mask
 } from "vue-the-mask"
 import flatpickr from 'flatpickr'
 
 export default {
     data() {
         return {
+            error: false,
+            success: false,
             palestra: "",
             palestrante: "",
             dia: '',
@@ -71,29 +82,31 @@ export default {
     components: {
         SideNav,
         NavBar,
-        
+
     },
     directives: {
         mask,
     },
     created() {
         console.log(this.$refs)
-        // if (this.$route.params.id) {
-        //     this.$db
-        //         .ref("generatedCodes")
-        //         // .once("value")
-        //         .orderByKey()
-        //         .equalTo(this.$route.params.id)
-        //         .on('value', snapshot => {
-        //             this.dataCodes = snapshot.val()[this.$route.params.id];
-        //             this.palestrante = this.dataCodes.palestrante
-        //             this.palestra = this.dataCodes.palestra
-        //             this.dia = this.dataCodes.dia
-        //         })
-        // }
+        if (this.$route.params.id) {
+            this.$db
+                .ref("palestra")
+                // .once("value")
+                .orderByKey()
+                .equalTo(this.$route.params.id)
+                .on('value', snapshot => {
+                    this.dataCodes = snapshot.val()[this.$route.params.id];
+                    this.palestrante = this.dataCodes.palestrante
+                    this.palestra = this.dataCodes.palestra
+                    this.dia = this.dataCodes.dia
+                })
+        }
     },
     mounted() {
-        this.$refs.dia.flatpickr({enableTime: true})
+        this.$refs.dia.flatpickr({
+            enableTime: true
+        })
     },
     methods: {
         clearForm() {
@@ -102,15 +115,46 @@ export default {
             this.dia = ""
         },
         save() {
-            let data = {
-                dia: this.dia,
-                palestrante: this.palestrante,
-                palestra: this.palestra
+            if (this.$route.params.id) {
+                var postData = {
+                    palestrante: this.palestrante,
+                    palestra: this.palestra,
+                    dia: this.dia
+                }
+                var updates = {}
+                updates['/palestra/' + this.$route.params.id] = postData
+                this.$db.ref().update(updates)
+                .then( () =>  {
+                    this.showSuccess()
+                }).catch( () => {
+                    this.showError()
+                })
+            } else {
+                let data = {
+                    dia: this.dia,
+                    palestrante: this.palestrante,
+                    palestra: this.palestra
+                }
+                console.log(data)
+                this.$db.ref("palestra").push(data)
+                .then( () =>  {
+                    this.showSuccess()
+                }).catch( () => {
+                    this.showError()
+                })
             }
-            console.log(data)
-            this.$db.ref("palestra").push(data)
         },
-        loadFlatpickr() {
+        showSuccess() {
+            this.success = true
+            setTimeout(() => {
+                this.success = false
+            }, 4000)
+        },
+        showError() {
+            this.error = true
+            setTimeout(() => {
+                this.error = false
+            }, 4000)
         }
     }
 }
@@ -129,6 +173,7 @@ export default {
     display: block !important;
     margin: 0 auto;
 }
+
 .flatpickr-month {
     box-sizing: border-box;
     height: 50px;
@@ -137,15 +182,41 @@ export default {
     align-items: center;
     justify-content: space-between;
 }
+
 .flatpickr-current-month {
     position: relative;
     width: auto;
     left: initial
 }
-.flatpickr-prev-month, .flatpickr-next-month {
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
     position: relative;
 }
+
 .icon.is-medium {
     font-size: 20px;
 }
+.notification {
+    animation: notification 1s forwards;
+    animation-delay: 3s;
+    position: fixed;
+    right: 30px;
+    top: 50px;
+    z-index: 9999;
+    transition: all 3s;
+}
+
+@keyframes notification {
+    90% {
+       transform: scaleY(0);
+       opacity: 0;
+    }
+    100% {
+        transform: scaleY(0);
+        visibility: hidden;
+    }
+}
+
+
 </style>

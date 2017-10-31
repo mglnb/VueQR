@@ -7,6 +7,7 @@
       <table class="table is-fullwidth is-stripe is-hoverable">
         <thead>
           <tr>
+            <th>Index</th>
             <th>Palestrante</th>
             <th>Palestra</th>
             <th>Dia</th>
@@ -15,7 +16,7 @@
         </thead>
         <tbody>
           <tr :id="index" v-show="!item.active" v-for="(item, index) in codes" :key="index">
-
+            <td>{{index}}</td>
             <td>{{item.palestrante}}</td>
             <td>{{item.palestra}}</td>
             <td>{{item.dia}}</td>
@@ -25,7 +26,7 @@
                   <span class="icon is-small">
                       <i class="fa fa-qrcode"></i>
                     </span>
-                  <span>Ver QRCode</span>
+                  <span>Editar</span>
                 </router-link>
                 <button @click="remove(index)" class="button is-danger is-outlined">
                     <span class="icon is-small">
@@ -76,7 +77,7 @@ export default {
     load(event) {},
     remove(key) {
       this.$db
-        .ref("generatedCodes")
+        .ref("palestra")
         .child(key)
         .remove()
         .then(() => {
