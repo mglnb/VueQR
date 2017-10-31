@@ -4,7 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueFire from 'vuefire'
+import 'vue-event-calendar/dist/style.css'
+import VueEventCalendar from 'vue-event-calendar'
 
+
+Vue.use(VueEventCalendar, {locale: 'pt-br', color: '#42b983'})
 Vue.config.productionTip = false
 
 

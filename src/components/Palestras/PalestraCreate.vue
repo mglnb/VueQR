@@ -17,7 +17,7 @@
                 <div class="control has-icons-left has-icons-right">
                     <input class="input is-medium" type="text" v-model="palestra" placeholder="Palestra">
                     <span class="icon is-small is-left">
-                <i class="fa fa-user-circle"></i>
+                <i class="fa fa-microphone "></i>
               </span>
                     <span class="icon is-small is-right">
                 <i class="fa fa-check" :class="palestra ? 'has-text-success' : ''"></i>
@@ -29,7 +29,7 @@
                 <div class="control has-icons-left has-icons-right">
                     <input class="input is-medium" v-model="palestrante" type="text" placeholder="Palestrante">
                     <span class="icon is-left">
-                <i class="fa fa-address-card-o"></i>
+                <i class="fa fa-user-circle"></i>
               </span>
                     <span class="icon is-right">
                 <i class="fa fa-check" :class="palestrante ? 'has-text-success' : ''"></i>
@@ -55,8 +55,6 @@
         </div>
     </div>
 </div>
-
-
 </template>
 
 <script>
@@ -105,8 +103,15 @@ export default {
     },
     mounted() {
         this.$refs.dia.flatpickr({
-            enableTime: true
+            enableTime: true,
+            dateFormat: 'd-m-Y H:i',
+            defaultDate: "22-11-2017 18:00",
+            minDate: "22-11-2017",
+            maxDate: "24-11-2017",
+            
+            time_24hr: true
         })
+        document.querySelector('.numInput.flatpickr-minute').setAttribute('step','30')
     },
     methods: {
         clearForm() {
@@ -124,11 +129,12 @@ export default {
                 var updates = {}
                 updates['/palestra/' + this.$route.params.id] = postData
                 this.$db.ref().update(updates)
-                .then( () =>  {
-                    this.showSuccess()
-                }).catch( () => {
-                    this.showError()
-                })
+                    .then(() => {
+                        this.showSuccess()
+                        this.clearForm()
+                    }).catch(() => {
+                        this.showError()
+                    })
             } else {
                 let data = {
                     dia: this.dia,
@@ -137,11 +143,12 @@ export default {
                 }
                 console.log(data)
                 this.$db.ref("palestra").push(data)
-                .then( () =>  {
-                    this.showSuccess()
-                }).catch( () => {
-                    this.showError()
-                })
+                    .then(() => {
+                        this.showSuccess()
+                        this.clearForm()
+                    }).catch(() => {
+                        this.showError()
+                    })
             }
         },
         showSuccess() {
@@ -185,8 +192,8 @@ export default {
 
 .flatpickr-current-month {
     position: relative;
-    width: auto;
-    left: initial
+    // width: auto;
+    // left: initial
 }
 
 .flatpickr-prev-month,
@@ -197,6 +204,7 @@ export default {
 .icon.is-medium {
     font-size: 20px;
 }
+
 .notification {
     animation: notification 1s forwards;
     animation-delay: 3s;
@@ -209,14 +217,12 @@ export default {
 
 @keyframes notification {
     90% {
-       transform: scaleY(0);
-       opacity: 0;
+        transform: scaleY(0);
+        opacity: 0;
     }
     100% {
         transform: scaleY(0);
         visibility: hidden;
     }
 }
-
-
 </style>

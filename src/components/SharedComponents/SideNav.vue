@@ -24,6 +24,16 @@
                 </ul>
             </li>
         </ul>
+        <p class="menu-label">
+            Calendario
+        </p>
+        <ul class="menu-list">
+            <li>
+                <ul>
+                    <li><router-link to="/calendar">Ver</router-link></li>
+                </ul>
+            </li>
+        </ul>
     </aside>
     <div class="wrapper"></div>
 </div>

@@ -8,6 +8,7 @@ import QrWriter from '@/components/Qr/QrWriter'
 import PalestraList from '@/components/Palestras/PalestraList'
 import PalestraCreate from '@/components/Palestras/PalestraCreate'
 
+import Calendar from '@/components/Calendar/CalendarView'
 
 
 const routes = [
@@ -22,7 +23,10 @@ const routes = [
     // PalestraCrud
     {path: '/palestra/create' , name : 'PalestraCreate', component: PalestraCreate},
     {path: '/palestra/create/:id' , name : 'PalestraCreate', component: PalestraCreate},
-    {path: '/palestra/list' , name : 'PalestraList', component: PalestraList}
+    {path: '/palestra/list' , name : 'PalestraList', component: PalestraList},
+    // Calendario
+    {path: '/calendar' , name : 'Calendar', component: Calendar},
+    
 ]
 
 export default routes;
