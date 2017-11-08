@@ -11,6 +11,7 @@
             <th>Palestrante</th>
             <th>Palestra</th>
             <th>Dia</th>
+            <th>Sala</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -20,6 +21,7 @@
             <td>{{item.palestrante}}</td>
             <td>{{item.palestra}}</td>
             <td>{{item.dia}}</td>
+            <td>{{item.sala}}</td>
             <td style="text-align:center;">
               <div class="buttons">
                 <router-link tag="button" :to="`create/${index}`" class="button is-info is-outlined">
